@@ -1,0 +1,46 @@
+@mixin break($point) {
+	@if $point == desktop {
+		@include susy-breakpoint($break-desktop,$desktop) { @content; }
+	}
+	@else if $point == padlet {
+		@include susy-breakpoint($break-padlet,$padlet) { @content; }
+	}
+	@else if $point == mobileonly {
+		@include susy-breakpoint($break-mobile,$mobile) { @content; }
+	}
+}
+
+
+//font-size translate
+@mixin fontSize($size:16) {
+  $unit: unit($size);
+  @if $unit == "" {
+    font-size: $size#{px};
+    font-size: calculateRem($size);
+  }
+  @if $unit == "px" {
+    $str: strip-units($size);
+
+    font-size: $str#{px};
+    font-size: calculateRem($str);
+  }
+  @else if $unit == "pt" {
+    $str: strip-units($size) * 1.34;
+    font-size: $str#{px};
+    font-size: calculateRem($str);
+  }
+  @else if $unit == "%" {
+    $str: (strip-units($size) / 100) * 16;
+    font-size: $str#{px};
+    font-size: calculateRem($str);
+  }
+}
+
+
+//background color
+@mixin backgroundTrans($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  $ie-hex-str: ie-hex-str($rgba);
+  background-color: $rgba;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str},endColorstr=#{$ie-hex-str});
+}

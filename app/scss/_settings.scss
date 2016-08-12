@@ -1,0 +1,33 @@
+$susy: (
+  flow: ltr,
+  math: fluid,
+  output: float,
+  gutter-position: after,
+  container-position: center,
+  columns: 12,
+  gutters: 1/12,
+  column-width: false,
+  global-box-sizing: content-box,
+  last-flow: to,
+  debug: (
+    image: hide, //show or hide
+    color: rgba(#ff0048, 1/6),
+    output: background,
+    toggle: top right,
+  ),
+  use-custom: (
+    background-image: true,
+    background-options: false,
+    box-sizing: true,
+    clearfix: false,
+    rem: true,
+  )
+);
+
+$desktop: (12 1/12 after);
+$padlet: (8 1/8 after);
+$mobile: (6 1/6 after);
+
+$break-desktop: 1025px;
+$break-padlet: 321px 1024px;
+$break-mobile: 0px;

@@ -1,0 +1,38 @@
+@import "compass";
+@import "susy";
+
+//animate scss mixins
+@import "_properties";
+@import "_fading-entrances/fading-entrances";
+@import "_fading-exits/fading-exits";
+
+@import "_var";
+@import "_settings";
+@import "_function";
+@import "_mixins";
+
+//example scss code
+html, body {
+	display: block;
+	width: 100%;
+	height: 100%;
+	font-family: Helvetica, Arial, 'LiHei Pro', '微軟正黑體', sans-serif;
+
+    .content {
+        width: 100%;
+        height: auto;
+    }
+
+    h1 {
+        display: inline-block;
+        height: 50px;
+
+        font-weight: 400;
+        line-height: 50px;
+        color: #ccc;
+    }
+}
+
+body {
+	@include container();
+}
