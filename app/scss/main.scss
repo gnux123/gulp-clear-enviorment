@@ -21,16 +21,26 @@ html, body {
     .content {
         width: 100%;
         height: auto;
+
+        @include fadeIn();
     }
 
     h1 {
         display: inline-block;
-        height: 50px;
+        height: 40px;
+        margin: 0;
+        padding: 0 20px;
 
         font-weight: 400;
         line-height: 50px;
-        color: #ccc;
+        color: #666;
     }
+
+    p {
+        padding: 5px 20px;
+        color: #666;
+    }
+
 }
 
 body {
