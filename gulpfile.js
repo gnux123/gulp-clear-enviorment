@@ -5,6 +5,13 @@ var cssminify = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var autoprefixer = require('gulp-autoprefixer');
 var include = require('gulp-html-tag-include');
+var plumber = require('gulp-plumber');
+
+//react build use
+var webpackStream = require('webpack-stream');
+var webpack = require('webpack');
+var named = require('vinyl-named');
+var webpackConfig = require("./webpack.config.js");
 
 //server load
 var browserSync = require('browser-sync').create();
@@ -29,10 +36,23 @@ gulp.task('browserSync', ['clean'], function() {
 	return gulp.watch([
 				config.app + '/{,*/}*.html',
 				config.app + '/scripts/*.js',
+				config.app + '/jsx/*.jsx',
 				config.app + '/scss/{*,*/,*/*/,*/*/*/}*.scss'
-			], ['html-include', 'sass', 'copy']).on("change", reload);
+			], ['react-build', 'html-include', 'sass', 'copy']).on("change", reload);
 });
 
+
+//jsx task
+//react task
+gulp.task('react-build', function(){
+	return gulp.src([config.app + '/jsx/*.jsx', config.app + '/jsx/libraries/*.jsx'])
+				.pipe(named())
+				.pipe(plumber())
+				.pipe(webpackStream(webpackConfig, webpack))
+    			.pipe(gulp.dest(config.temp + config.jsfolder));
+});
+
+//sass task
 gulp.task('sass', function(){
 	return gulp.src(config.app + '/scss/{*,*/,*/*/,*/*/*/}*.scss')
 			   .pipe(sass({
@@ -106,7 +126,7 @@ gulp.task('clean', function(cb){
 });
 
 gulp.task('server', ['browserSync'], function(){
-	gulp.start(['clean', 'sass', 'copy', 'html-include']);
+	gulp.start(['clean', 'react-build', 'sass', 'copy', 'html-include']);
 });
 
 gulp.task('build', ['dist:html-include', 'dist:copy', 'dist:uglify', 'dist:css']);
