@@ -30,7 +30,6 @@ class HelloWorld extends React.Component {
     render() {
         return(<h2>
             {this.state.text}
-            <MyShowExtend />
         </h2>);
     }
 }
