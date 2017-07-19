@@ -2,10 +2,15 @@ var gulp = require('gulp');
 var del = require('del');
 var sass = require('gulp-sass');
 var cssminify = require('gulp-minify-css');
-var uglify = require('gulp-uglify');
 var autoprefixer = require('gulp-autoprefixer');
 var include = require('gulp-html-tag-include');
 var plumber = require('gulp-plumber');
+
+//es6 minify
+var uglifyjs = require('uglify-es');
+var composer = require('gulp-uglify/composer');
+var pump = require('pump');
+var minify = composer(uglifyjs, console);
 
 //react build use
 var webpackStream = require('webpack-stream');
@@ -43,7 +48,6 @@ gulp.task('browserSync', ['clean'], function() {
 
 
 //jsx task
-//react task
 gulp.task('react-build', function(){
 	return gulp.src([config.app + '/jsx/*.jsx', config.app + '/jsx/libraries/*.jsx'])
 				.pipe(named())
@@ -105,19 +109,25 @@ gulp.task('dist:css', function(){
 
 gulp.task('dist:copy', function(){
 	return gulp.src([
-					config.app + '/scripts/*.js',
-					config.app + '/fonts/*.*',
-					config.app + '/images/{*,*/}*.*'
-				], { base: config.app })
+					config.temp + '/scripts/*.js',
+					config.temp + '/fonts/*.*',
+					config.temp + '/images/{*,*/}*.*'
+				], { base: config.temp })
 			   .pipe(gulp.dest(config.dest));
 });
 
-gulp.task('dist:uglify', function(){
-	return gulp.src([
-		config.dest + config.jsfolder + '/*.js'
-	], { base: config.dest })
-	.pipe(uglify())
-	.pipe(gulp.dest(config.dest));
+gulp.task('dist:uglify', function(cb){
+	pump([
+		gulp.src([
+			config.dest + '/scripts/*.js'
+		], { base: config.dest }),
+		minify({
+			//do something settings
+			//example: https://gist.github.com/gnux123/7ae8d479b47c7c9bb7b5ac533e197915
+		}),
+		gulp.dest(config.dest)
+	],
+	cb)
 });
 
 //clean task
@@ -125,8 +135,12 @@ gulp.task('clean', function(cb){
     return del(['tmp', 'dest'], {force: true, read: false}, cb);
 });
 
-gulp.task('server', ['browserSync'], function(){
-	gulp.start(['clean', 'react-build', 'sass', 'copy', 'html-include']);
+//develop environment
+gulp.task('server', ['clean', 'browserSync'], function(){
+	gulp.start(['react-build', 'sass', 'copy', 'html-include']);
 });
 
-gulp.task('build', ['dist:html-include', 'dist:copy', 'dist:uglify', 'dist:css']);
+//production environment
+gulp.task('build', ['dist:copy'], function(){
+	gulp.start(['dist:css', 'dist:uglify', 'dist:html-include']);
+});

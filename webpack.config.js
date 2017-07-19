@@ -2,7 +2,7 @@ process.noDeprecation = true;
 
 module.exports = {
     watch: true,
-    devtool: "inline-source-map",
+    devtool: "source-map",
     resolve: {
         extensions: ['.js', '.jsx']
     },
@@ -13,7 +13,7 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['es2016', 'react'] //['es2015', 'react']
+                    presets: ['es2016', 'react']
                 }
             }
         ]
