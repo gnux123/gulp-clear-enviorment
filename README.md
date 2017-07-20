@@ -42,3 +42,7 @@ react.js / react-with-addons.js / react-dom.js
     //執行build動作，產生dist包
     $> gulp build
     ```
+
+## MobX教學說明：
+(中文官方網站)[http://cn.mobx.js.org/]
+(教學範例)[http://hao.jser.com/archive/13670/]
