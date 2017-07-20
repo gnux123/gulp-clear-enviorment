@@ -31,7 +31,7 @@ var config = {
 };
 
 //server task
-gulp.task('browserSync', ['clean'], function() {
+gulp.task('browserSync', function() {
     browserSync.init({
         server: {
             baseDir: "./tmp"
@@ -40,7 +40,7 @@ gulp.task('browserSync', ['clean'], function() {
 
 	return gulp.watch([
 				config.app + '/{,*/}*.html',
-				config.app + '/scripts/*.js',
+				config.app + config.jsfolder + '/*.js',
 				config.app + '/jsx/*.jsx',
 				config.app + '/scss/{*,*/,*/*/,*/*/*/}*.scss'
 			], ['react-build', 'html-include', 'sass', 'copy']).on("change", reload);
@@ -85,7 +85,7 @@ gulp.task('html-include', function() {
 //copy task
 gulp.task('copy', function(){
 	return gulp.src([
-					config.app + '/scripts/*.js',
+					config.app + config.jsfolder + '/*.js',
 					config.app + '/fonts/*.*',
 					config.app + '/images/{*,*/}*.*',
 					config.app + '/Themes/{*,*/,*/*/,*/*/*/}*.*'
@@ -109,7 +109,7 @@ gulp.task('dist:css', function(){
 
 gulp.task('dist:copy', function(){
 	return gulp.src([
-					config.temp + '/scripts/*.js',
+					config.temp + config.jsfolder + '/*.js',
 					config.temp + '/fonts/*.*',
 					config.temp + '/images/{*,*/}*.*'
 				], { base: config.temp })
@@ -119,11 +119,13 @@ gulp.task('dist:copy', function(){
 gulp.task('dist:uglify', function(cb){
 	pump([
 		gulp.src([
-			config.dest + '/scripts/*.js'
+			config.dest + config.jsfolder + '/*.js'
 		], { base: config.dest }),
 		minify({
 			//do something settings
 			//example: https://gist.github.com/gnux123/7ae8d479b47c7c9bb7b5ac533e197915
+			toplevel: true,
+			ie8: true
 		}),
 		gulp.dest(config.dest)
 	],
