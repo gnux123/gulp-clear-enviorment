@@ -2,6 +2,15 @@
 
 ---
 
+使用 webpack v3.3版本,
+
+外部導入
+
+```
+// ver15.1.0
+react.js / react-with-addons.js / react-dom.js
+```
+
 ## 安裝方式
 
 - 初次使用方式：
@@ -26,10 +35,15 @@
 
 ## 執行gulp開發任務：
 
-    ```
-    //執行local server 開發環境
-    $> gulp server
+```
+//執行local server 開發環境
+$> gulp server
 
-    //執行build動作，產生dist包
-    $> gulp build
-    ```
+//執行build動作，產生dist包
+$> gulp build
+```
+
+## React教學：
+
+[基礎教學網站](https://gnux123.gitbooks.io/testbook/content/qian-yan.html)
+
