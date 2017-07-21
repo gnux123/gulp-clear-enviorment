@@ -46,9 +46,9 @@ $> gulp build
 ## React教學：
 
 
-[JSX 是啥](#什麼是JSX)
+[JSX 是啥](https://github.com/gnux123/gulp-clear-enviorment/tree/jsx-use#什麼是jsx)
 
-[Babel 是啥](#什麼是Babel)
+[Babel 是啥](https://github.com/gnux123/gulp-clear-enviorment/tree/jsx-use#什麼是babel)
 
 ### 什麼是JSX
 
