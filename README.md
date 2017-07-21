@@ -44,5 +44,7 @@ react.js / react-with-addons.js / react-dom.js
     ```
 
 ## MobX教學說明：
-(中文官方網站)[http://cn.mobx.js.org/]
-(教學範例)[http://hao.jser.com/archive/13670/]
+
+[中文官方網站](http://cn.mobx.js.org/)
+
+[教學範例](http://hao.jser.com/archive/13670/)
