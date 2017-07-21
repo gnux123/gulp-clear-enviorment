@@ -1,4 +1,4 @@
-# gulp-clear-enviorment v1.0 {}
+# gulp-clear-enviorment v1.0
 
 ---
 
