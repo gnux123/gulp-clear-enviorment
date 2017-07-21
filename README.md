@@ -35,13 +35,13 @@ react.js / react-with-addons.js / react-dom.js
 
 ## 執行gulp開發任務：
 
-    ```
-    //執行local server 開發環境
-    $> gulp server
+```
+//執行local server 開發環境
+$> gulp server
 
-    //執行build動作，產生dist包
-    $> gulp build
-    ```
+//執行build動作，產生dist包
+$> gulp build
+```
 
 ## MobX教學說明：
 
