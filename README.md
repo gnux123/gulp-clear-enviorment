@@ -45,5 +45,5 @@ $> gulp build
 
 ## React教學：
 
-[基礎教學網站](https://gnux123.gitbooks.io/testbook/)
+[基礎教學網站](https://gnux123.gitbooks.io/testbook/content/qian-yan.html)
 
