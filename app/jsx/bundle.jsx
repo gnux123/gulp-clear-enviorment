@@ -1,7 +1,5 @@
-const { observable, computed, action, useStrict } = mobx;
+const { observable, computed, action, useStrict, autorun } = mobx;
 const { observer } = mobxReact;
-
-mobx.useStrict(true);
 
 /**
  * mobx test
@@ -18,10 +16,35 @@ class Store {
         }
     ];
 
-    @action changeData(index, title) {
-        console.log(1);
-        this.todos[index].title = title;
+    @observable parkData = [];
+
+
+    constructor() {
+        autorun(() => {
+            this.changeData();
+            // console.log(this.parkData);
+        });
     }
+
+
+    @action changeData(){
+        $.getJSON('https://gist.githubusercontent.com/gnux123/24c17078ae6b1ccf6719c7b1c55ab039/raw/6f6ed57784a5eaae955ec38696861e1bbc6615e6/kh.json').then(function(result){
+            this.parkData = result;
+        }.bind(this));
+    }
+
+    //計算parkData
+    @computed get parkDataRows(){
+        var _parkNameArr = [];
+        for (var i = 0; i < this.parkData.length; i++){
+            var _parkName = this.parkData[i].Name;
+            _parkNameArr.push(_parkName);
+        }
+
+        console.log(_parkNameArr);
+        return _parkNameArr;
+    }
+
 }
 
 @observer
@@ -29,107 +52,38 @@ class TodoBox extends React.Component {
 
     constructor(props) {
         super(props);
+
     }
 
-    getData(e){
-        console.log(this.props.store);
-        this.props.store.changeData(0,"我要成為海賊王");
+    componentWillReact() {
+        console.log("I will re-render, since the todo has changed!");
+    }
+
+    getData(){
+        // alert(1);
+        this.props.store.changeData();
     }
 
     render() {
+        console.log(this.props.store.parkDataRows);
         return (
             <div>
-                <ul>
-                    {this.props.store.todos.map(todo => <li>{todo.title}</li>)}
-                </ul>
                 <div>
                     <a onClick={this.getData.bind(this)}>按我拉</a>
                 </div>
+                <ul>
+                    {
+                        this.props.store.parkDataRows.map(function(item, index){
+                            return <li key={index}>{item}</li>
+                        }, this)
+                    }
+                </ul>
+
             </div>
         )
     }
 }
 
 const store = new Store();
-
-
-/**
- * es2015寫法
-** */
-var HelloWorld = React.createClass({
-    getInitialState: function(){
-        return {
-            text: "Hello React World!!!1"
-        }
-    },
-
-    componentWillMount: function(){
-        this.setState({
-            text: "hello my vincent2"
-        });
-    },
-
-    render: function(){
-        return(<h2>{this.state.text}</h2>)
-    }
-});
-
-/**
- * es6寫法
- */
-const logoGo = (add, text) => {
-    let ShowText = add + text;
-    return ShowText;
-};
-
-class AboutMe extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            aboutText: ""
-        };
-    }
-
-    componentWillMount() {
-        this.setState({
-            aboutText: (!!this.props.title)?this.props.title:this.state.aboutText
-        });
-    }
-
-    render() {
-        return(
-            <div>
-                <br/>
-                <p>{this.state.aboutText}</p>
-                <span>{logoGo("myName:","vincent")}</span>
-            </div>
-        );
-    }
-}
-
-export default class HelloWorldES6 extends React.Component {
-    constructor(props){
-        super(props);
-
-        this.state = {
-            text: "Hello React ES6 World!!!",
-            aboutTitle: "vincent.sue Show Time"
-        };
-    }
-
-    componentWillMount(){
-        this.setState({text: "hello my ES61"});
-    }
-
-    render() {
-        return(<h3 className="es6_title">
-            {this.state.text}
-            <AboutMe title={this.state.aboutTitle} />
-        </h3>);
-    }
-}
-
-ReactDOM.render(<HelloWorld />, document.getElementById('root'));
 
 ReactDOM.render(<TodoBox store={store} />, document.getElementById('es6root'));
