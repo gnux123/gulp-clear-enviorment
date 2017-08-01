@@ -18,18 +18,24 @@ class Store {
     }
 
 
-    @action changeData(){
+    @action changeData(key){
 
         /**
          * 結束觸發的callback function, 被@action給包住了,
          * 因為@action無法影響當前function調用的ajax，而這個callback毫無疑問是一個ajax，
          * 所以必須再用一個action來包住它，這樣程序才不會報錯
+         * http://www.jianshu.com/p/505d9d9fe36a
          */
 
         $.getJSON('https://gist.githubusercontent.com/gnux123/24c17078ae6b1ccf6719c7b1c55ab039/raw/6f6ed57784a5eaae955ec38696861e1bbc6615e6/kh.json')
          .then(action("Get Kaohsiung Park Json Data.", function (result) {
             //do something
-            this.parkData = result;
+            for(let i=0; i<result.length; i++){
+                if(i = key){
+                    this.parkData = result;
+                }
+            }
+
          }.bind(this)));
     }
 
@@ -55,11 +61,13 @@ class TodoBox extends React.Component {
 
     componentWillReact() {
         console.log("I will re-render, since the todo has changed!");
+        console.log(this.props.store.parkDataRows.length);
     }
 
-    getData(){
-        // alert(1);
-        this.props.store.changeData();
+    getData(e){
+        const _key = e.target.dataset.choice;
+        alert(_key);
+        this.props.store.changeData(_key);
     }
 
     render() {
@@ -67,7 +75,7 @@ class TodoBox extends React.Component {
         return (
             <div>
                 <div>
-                    <a onClick={this.getData.bind(this)}>按我拉</a>
+                    <a data-choice="20" onClick={this.getData.bind(this)}>按我拉</a>
                 </div>
                 <ul>
                     {
