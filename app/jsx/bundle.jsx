@@ -55,7 +55,10 @@ class TodoBox extends React.Component {
     }
 
     componentWillReact() {
-        console.log("I will re-render, since the todo has changed!");
+        /**
+         * oberservable Array 有變動時會呼叫這個function
+         */
+        console.log("I will re-render, since has changed!");
         console.log(this.props.store.parkDataRows.length);
     }
 
