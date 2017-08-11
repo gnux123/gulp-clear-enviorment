@@ -1,4 +1,4 @@
-var Dispatcher = require('../dispatcher');
+var Dispatcher = require('../dispatch/dispatcher');
 var Constants = require('../constants/constant');
 
 var APIMethods = Constants.METHODS;
