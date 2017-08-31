@@ -1,7 +1,6 @@
 process.noDeprecation = true;
 
 module.exports = {
-    watch: true,
     devtool: "source-map",
     resolve: {
         extensions: ['.js', '.jsx']

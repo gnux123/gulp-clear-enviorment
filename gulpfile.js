@@ -49,6 +49,12 @@ gulp.task('browserSync', function() {
 
 //jsx task
 gulp.task('react-build', function(){
+	var _IsPRD = process.argv[2].toUpperCase();
+
+	if (_IsPRD == "BUILD"){
+		webpackConfig.watch = false;
+	}
+
 	return gulp.src([config.app + '/jsx/*.jsx', config.app + '/jsx/libraries/*.jsx'])
 				.pipe(named())
 				.pipe(plumber())
@@ -107,7 +113,7 @@ gulp.task('dist:css', function(){
 			   .pipe(gulp.dest(config.dest));
 });
 
-gulp.task('dist:copy', function(){
+gulp.task('dist:copy', ['clean','react-build', 'sass', 'copy', 'html-include'], function(){
 	return gulp.src([
 					config.temp + config.jsfolder + '/*.js',
 					config.temp + '/fonts/*.*',
